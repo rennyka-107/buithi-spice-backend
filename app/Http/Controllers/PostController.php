@@ -103,4 +103,20 @@ class PostController extends Controller
             return response()->json(['error' => $error->getMessage()]);
         }
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function getBySlug($slug)
+    {
+        try {
+            $post = $this->post_service->getBySlug($slug);
+            return response()->json(["status" => $post !== null, "post" => $post]);
+        } catch (Exception $error) {
+            return response()->json(['error' => $error->getMessage()]);
+        }
+    }
 }

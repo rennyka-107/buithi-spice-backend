@@ -36,9 +36,14 @@ class ProductService extends BaseService implements ProductServiceInterface
     {
         return $this->product_repository->delete($id);
     }
-    public function getProductsByCategoryId($id, $option)
+    public function getProductsByCategory($option)
     {
-        $products = $this->product_repository->getProductsByCategoryId($id, $option);
+        $products = $this->product_repository->getProductsByCategory($option);
         return ["products" => new ProductCollection($products), "total" => $products->total()];
+    }
+    public function getBySlug($slug)
+    {
+        $product = $this->product_repository->getBySlug($slug);
+        return $product ? new ProductResource($product) : null;
     }
 }

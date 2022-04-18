@@ -36,6 +36,7 @@ Route::group([
     'prefix' => 'posts'
 ], function () {
     Route::get('{id}', 'PostController@get');
+    Route::get('by-slug/{slug}', 'PostController@getBySlug');
     Route::get('', 'PostController@getAll');
     Route::get('by-category/{id}', 'PostController@getPostsByCategoryId');
 
@@ -51,8 +52,9 @@ Route::group([
     'prefix' => 'products'
 ], function () {
     Route::get('{id}', 'ProductController@get');
+    Route::get('by-slug/{slug}', 'ProductController@getBySlug');
     Route::get('', 'ProductController@getAll');
-    Route::get('by-category/{id}', 'ProductController@getProductsByCategoryId');
+    Route::post('by-category', 'ProductController@getProductsByCategory');
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('', 'ProductController@create');

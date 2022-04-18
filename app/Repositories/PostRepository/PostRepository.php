@@ -74,4 +74,13 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         return Post::where('category_id', $id)->paginate($option['size']);
     }
+
+    public function getBySlug($slug)
+    {
+        try {
+            return Post::where("slug", $slug)->first();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
+    }
 }

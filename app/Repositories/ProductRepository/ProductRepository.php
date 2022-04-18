@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Repositories\ProductRepository;
+
 use App\Models\Product;
 use App\Repositories\BaseRepository;
 use App\Services\Firebase\ImageService;
@@ -69,8 +70,18 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         }
     }
 
-    public function getProductsByCategoryId($id, $option)
+    public function getProductsByCategory($option)
     {
-        return Product::where('category_id', $id)->paginate($option['size']);
+
+        return Product::whereIn('category_id', $option['ids'])->paginate($option['size']);
+    }
+
+    public function getBySlug($slug)
+    {
+        try {
+            return Product::where("slug", $slug)->first();
+        } catch (ModelNotFoundException $e) {
+            return null;
+        }
     }
 }

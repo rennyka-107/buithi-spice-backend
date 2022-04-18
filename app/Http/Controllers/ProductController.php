@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\CreateRequest;
+use App\Http\Requests\Product\GetAllProductByCategoryRequest;
 use App\Http\Requests\Product\GetAllProductRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Services\ProductService\ProductServiceInterface as ProductService;
@@ -93,12 +94,28 @@ class ProductController extends Controller
         }
     }
 
-    public function getProductsByCategoryId(GetAllProductRequest $request, $id)
+    public function getProductsByCategory(GetAllProductByCategoryRequest $request)
     {
         try {
-            $data = $this->product_service->getProductsByCategoryId($id, $request->all());
+            $data = $this->product_service->getProductsByCategory($request->all());
             $data['status'] = count($data['products']) > 0;
             return response()->json($data);
+        } catch (Exception $error) {
+            return response()->json(['error' => $error->getMessage()]);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function getBySlug($slug)
+    {
+        try {
+            $product = $this->product_service->getBySlug($slug);
+            return response()->json(["status" => $product !== null, "product" => $product]);
         } catch (Exception $error) {
             return response()->json(['error' => $error->getMessage()]);
         }
