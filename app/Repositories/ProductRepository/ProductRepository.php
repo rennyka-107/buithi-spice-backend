@@ -21,7 +21,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getAll($option)
     {
-        return Product::orderBy('DESC')->paginate($option['size']);
+        return Product::orderBy('id', 'DESC')->paginate($option['size']);
     }
 
     public function create($data)
