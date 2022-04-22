@@ -4,5 +4,5 @@ namespace App\Services\PostService;
 
 interface PostServiceInterface
 {
-    public function getPostsByCategoryId($id, $option);
+    public function getPostsByCategory($option);
 }

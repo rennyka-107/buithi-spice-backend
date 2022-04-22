@@ -73,9 +73,9 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         }
     }
 
-    public function getPostsByCategoryId($id, $option)
+    public function getPostsByCategory($option)
     {
-        return Post::where('category_id', $id)->paginate($option['size']);
+        return Post::whereIn('category_id', $option['ids'])->paginate($option['size']);
     }
 
     public function getBySlug($slug)

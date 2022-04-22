@@ -37,9 +37,9 @@ class PostService extends BaseService implements PostServiceInterface
     {
         return $this->post_repository->delete($id);
     }
-    public function getPostsByCategoryId($id, $option)
+    public function getPostsByCategory($option)
     {
-        $posts = $this->post_repository->getPostsByCategoryId($id, $option);
+        $posts = $this->post_repository->getPostsByCategory($option);
         return ["posts" => new PostCollection($posts), "total" => $posts->total()];
     }
     public function getBySlug($slug)

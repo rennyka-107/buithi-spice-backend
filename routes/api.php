@@ -38,7 +38,7 @@ Route::group([
     Route::get('{id}', 'PostController@get');
     Route::get('by-slug/{slug}', 'PostController@getBySlug');
     Route::get('', 'PostController@getAll');
-    Route::get('by-category/{id}', 'PostController@getPostsByCategoryId');
+    Route::post('by-category', 'PostController@getPostsByCategory');
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('', 'PostController@create');

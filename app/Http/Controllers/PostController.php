@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Post\CreateRequest;
 use App\Http\Requests\Post\GetAllPostRequest;
 use App\Http\Requests\Post\UpdateRequest;
+use App\Http\Requests\Post\GetAllPostByCategoryRequest;
 use App\Services\PostService\PostServiceInterface as PostService;
 
 class PostController extends Controller
@@ -93,10 +94,10 @@ class PostController extends Controller
         }
     }
 
-    public function getPostsByCategoryId(GetAllPostRequest $request, $id)
+    public function getPostsByCategory(GetAllPostByCategoryRequest $request)
     {
         try {
-            $data = $this->post_service->getPostsByCategoryId($id, $request->all());
+            $data = $this->post_service->getPostsByCategory($request->all());
             $data['status'] = count($data['posts']) > 0;
             return response()->json($data);
         } catch (Exception $error) {
