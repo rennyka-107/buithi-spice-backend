@@ -116,7 +116,7 @@ class PostController extends Controller
             $post = $this->post_service->getBySlug($slug);
             return response()->json(["status" => $post !== null, "post" => $post]);
         } catch (Exception $error) {
-            return response()->json(['error' => $error->getMessage()]);
+            return response()->withCookie(cookie('name', 'kaka', 3600))->json(['error' => $error->getMessage()]);
         }
     }
 }

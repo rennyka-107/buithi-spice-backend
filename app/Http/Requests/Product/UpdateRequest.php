@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,13 +25,15 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'max:100', Rule::unique('posts', 'title')->where(function ($query) {
+            'title' => ['required', 'string', 'max:100', Rule::unique('products', 'title')->where(function ($query) {
                 return $query->where('id', '<>', $this->route('id'));
             })],
             'description' => 'required|string|max:255',
             'content' => 'required',
-            'image' => 'file|mimes:jpeg,jpg,png',
-            'slug' => 'required|string|unique:posts,slug|max:255',
+            'image' => 'file|mimes:jpeg,jpg,png|nullable',
+            'slug' => ['required','string','max:255', Rule::unique('products', 'slug')->where(function ($query) {
+                return $query->where('id', '<>', $this->route('id'));
+            })],
         ];
     }
 }

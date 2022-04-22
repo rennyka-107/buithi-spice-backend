@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -30,8 +31,10 @@ class UpdateRequest extends FormRequest
             'description' => 'required|string|max:255',
             'content' => 'required',
             'user_id' => 'required|exists:users,id',
-            'image' => 'file|mimes:jpeg,jpg,png',
-            'slug' => 'required|string|unique:posts,slug|max:255',
+            'image' => 'file|mimes:jpeg,jpg,png|nullable',
+            'slug' => ['required','string','max:255', Rule::unique('posts', 'slug')->where(function ($query) {
+                return $query->where('id', '<>', $this->route('id'));
+            })]
         ];
     }
 }

@@ -41,12 +41,14 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         try {
             $category = Category::findOrFail($data['id']);
-            if ($image = $data['image']) {
+            if ($data['image']) {
+                $image = $data['image'];
                 unset($data['image']);
-                ImageService::deleteImageFirebase($category['name'] . '.' . $image->getClientOriginalExtension(),"Categories/");
-                $data['image'] = ImageService::uploadImageClientToFirebase($image, $category['name'],"Categories/");
+                ImageService::deleteImageFirebase($category['name'] . '.' . $image->getClientOriginalExtension(), "Categories/");
+                $data['image'] = ImageService::uploadImageClientToFirebase($image, $category['name'], "Categories/");
+            } else {
+                unset($data['image']);
             }
-
             $category->update($data);
             return $category;
         } catch (Exception $e) {

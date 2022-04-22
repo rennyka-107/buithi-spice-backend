@@ -24,6 +24,7 @@ class ProductResource extends JsonResource
             'image' => $this->image,
             'image_url' => $this->image ? ImageService::getUrlImageFirebase($this->image, "Products/") : null,
             'category' => $this->category->name,
+            'category_id' => $this->category_id,
             'created_at' => $this->created_at,
         ];
     }

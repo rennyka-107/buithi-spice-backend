@@ -43,10 +43,13 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         try {
             $product = Product::findOrFail($data['id']);
-            if ($image = $data['image']) {
+            if ($data['image']) {
+                $image = $data['image'];
                 unset($data['image']);
                 ImageService::deleteImageFirebase($product['slug'] . '.' . $image->getClientOriginalExtension(), "Products/");
                 $data['image'] = ImageService::uploadImageClientToFirebase($image, $product['slug'], "Products/");
+            } else {
+                unset($data['image']);
             }
 
             $product->update($data);

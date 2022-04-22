@@ -43,10 +43,13 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         try {
             $post = Post::findOrFail($data['id']);
-            if ($image = $data['image']) {
+            if ($data['image']) {
+                $image = $data['image'];
                 unset($data['image']);
                 ImageService::deleteImageFirebase($post['slug'] . '.' . $image->getClientOriginalExtension(), "Posts/");
                 $data['image'] = ImageService::uploadImageClientToFirebase($image, $post['slug'], "Posts/");
+            } else {
+                unset($data['image']);
             }
 
             $post->update($data);

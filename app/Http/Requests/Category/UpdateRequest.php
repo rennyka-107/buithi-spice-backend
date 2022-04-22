@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,9 +25,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|unique:categories,name|max:100',
+            'name' => ['required', 'string', 'max:100', Rule::unique('categories', 'name')->where(function ($query) {
+                return $query->where('id', '<>', $this->route('id'));
+            })],
             'description' => 'required|string|max:255',
-            'image' => 'file|mimes:jpeg,jpg,png',
+            'image' => 'file|mimes:jpeg,jpg,png|nullable',
         ];
     }
 }
